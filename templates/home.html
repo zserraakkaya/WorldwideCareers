@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worldwide Careers</title>
+  </head>
+  <body>
+    <h1>Welcome to Worldwide Careers</h1>
+    <img src="../static/career.jpg" height="350" />
+
+    <h2>About Worldwide Careers</h2>
+    <p>Text...</p>
+
+    <h2>Job Openings</h2>
+
+    {% for job in jobs %} {% include 'jobs.html' %} {% endfor %}
+
+    <footer>
+      <p>Copyright 2024</p>
+    </footer>
+  </body>
+</html>
