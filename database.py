@@ -2,7 +2,8 @@ import pymysql
 import os
 
 from dotenv import load_dotenv
-load_dotenv()
+if not os.getenv("DB_HOST"):
+    load_dotenv()
 
 def connect_to_database():
     host = os.getenv("DB_HOST")
