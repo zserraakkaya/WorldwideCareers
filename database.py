@@ -6,10 +6,10 @@ if not os.getenv("DB_HOST"):
     load_dotenv()
 
 def connect_to_database():
-    host = os.getenv("DB_HOST")
-    user = os.getenv("DB_USER")
-    password = os.getenv("DB_PASSWORD")
-    database = os.getenv("DB_NAME")
+    host = os.environ.get("DB_HOST")
+    user = os.environ.get("DB_USER")
+    password = os.environ.get("DB_PASSWORD")
+    database = os.environ.get("DB_NAME")
 
     try:
         connection = pymysql.connect(
