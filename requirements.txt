@@ -1,4 +1,4 @@
 Flask
 gunicorn
 pymysql
-dotenv
+python-dotenv
