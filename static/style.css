@@ -6,6 +6,8 @@ body {
 #nav-h1 {
   font-size: 11px;
 }
+
+/*header part start*/
 header {
   position: relative;
 }
@@ -17,7 +19,7 @@ header {
   object-position: 0 50%;
 }
 
-.header-overlay {
+#header-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -31,18 +33,27 @@ header {
 
 #header-h1 {
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.4);
   width: 100%;
   margin: 0;
   padding: 20px;
   font-size: 45px;
   font-family: "Lobster", sans-serif;
 }
+/*header part end*/
 
+/*single job item start*/
 #job-div {
-  width: 60%;
-  text-align: center;
-  margin: 10px auto;
-  padding: 15px;
-  border: 1px solid black;
+  margin: 15px;
 }
+#job-title,
+#job-location,
+#details-btn,
+#job-added,
+#job-description,
+#job-salary {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+/*single job item end*/

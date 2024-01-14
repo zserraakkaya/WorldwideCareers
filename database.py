@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 if not os.getenv("DB_HOST"):
     load_dotenv()
 
+# initial connection to database
 def connect_to_database():
     host = os.environ.get("DB_HOST")
     user = os.environ.get("DB_USER")
@@ -34,6 +35,7 @@ def connect_to_database():
         print(f"Error connecting to the database: {e}")
         return None
 
+# close connection to database
 def close_connection(connection):
     if connection:
         connection.close()
@@ -58,6 +60,7 @@ def retrieve_jobs_data(connection):
     except Exception as e:
         print(f"Error retrieving data: {e}")
 
+# load all jobs for home.html
 def load_jobs_from_db():
     connection = connect_to_database()
     if connection:
@@ -68,6 +71,7 @@ def load_jobs_from_db():
         close_connection(connection)
         return jobs
 
+# when "post job" button clicked on post-job.html:
 def insert_job_to_db(title, location, description, salary, currency):
     connection = connect_to_database()
 
@@ -83,6 +87,29 @@ def insert_job_to_db(title, location, description, salary, currency):
 
     except Exception as e:
         return jsonify({'success': False, 'message': f'Error posting job: {e}'})
+
+    finally:
+        close_connection(connection)
+
+# when "see job details" button clicked on home.html:
+def load_job_from_db(job_id):
+    connection = connect_to_database()
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = 'SELECT * FROM jobs WHERE id=%s'
+            
+            cursor.execute(sql_query, (job_id,))
+            
+            result = cursor.fetchone()  # Use fetchone() to get a single row
+
+            if result:
+                return dict(result)
+            else:
+                return None
+                
+    except Exception as e:
+        print(f"Error retrieving data: {e}")
 
     finally:
         close_connection(connection)

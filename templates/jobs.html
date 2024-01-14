@@ -1,5 +1,18 @@
-<div id="job-div">
-  <h5>{{job.title}}</h5>
-  <h6>{{job.location}}</h6>
-  <button>Apply</button>
+<div class="col-sm-4">
+  <div class="card shadow-lg" id="job-div">
+    <div class="card-body">
+      <h5 class="card-title mb-3" id="job-title">{{ job.title }}</h5>
+      <p class="card-text mb-3" id="job-location">{{ job.location }}</p>
+      <form action="/job-details/{{ job.id }}" method="GET">
+        <button type="submit" id="details-btn" class="btn btn-outline-dark">
+          See Job Details
+        </button>
+      </form>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted" id="job-added"
+        >Job added at {{job.created_at.strftime('%d %b %Y %H:%M')}}</small
+      >
+    </div>
+  </div>
 </div>

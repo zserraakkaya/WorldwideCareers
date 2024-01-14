@@ -1,96 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Post a Job</title>
-    <style>
-      body {
-        margin: 20px;
-      }
+{% extends 'base.html' %} {% block head %}
+<title>Post a Job</title>
+<style>
+  #jobForm {
+    text-align: center;
+    font-style: italic;
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 40px auto 20px;
+  }
 
-      h2 {
-        text-align: center;
-      }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
 
-      form {
-        max-width: 600px;
-        margin: 0 auto;
-      }
+  input,
+  textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    border-radius: 2px;
+  }
 
-      label {
-        display: block;
-        margin-bottom: 5px;
-      }
+  button {
+    margin: auto;
+    display: block;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+{% endblock %} {% block body %} {% include 'nav.html' %}
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 15px;
-      }
+<header>
+  <img src="../static/career.jpg" id="header-img" style="height: 300px" />
+  <div id="header-overlay">
+    <h1 id="header-h1">Worldwide Careers</h1>
+  </div>
+</header>
 
-      button {
-        margin: auto;
-        display: block;
-        background-color: #4caf50;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <h2>Post Your Job</h2>
+<form id="jobForm" action="/post-job-to-db" method="POST">
+  <label for="title">Job Title *</label>
+  <input type="text" id="title" name="title" required />
 
-    <form id="jobForm" action="/post-job-to-db" method="POST">
-      <label for="title">Job Title:</label>
-      <input type="text" id="title" name="title" required />
+  <label for="location">Location *</label>
+  <input type="text" id="location" name="location" required />
 
-      <label for="location">Location:</label>
-      <input type="text" id="location" name="location" required />
+  <label for="description">Job Description *</label>
+  <textarea id="description" name="description" rows="10" required></textarea>
 
-      <label for="description">Job Description:</label>
-      <textarea
-        id="description"
-        name="description"
-        rows="10"
-        required
-      ></textarea>
+  <label for="salary">Salary</label>
+  <input type="number" id="salary" name="salary" />
 
-      <label for="salary">Salary:</label>
-      <input type="number" id="salary" name="salary" />
+  <label for="currency">Currency (Eur, Usd...)</label>
+  <input type="text" id="currency" name="currency" />
 
-      <label for="currency">Currency: (Eur, Usd...)</label>
-      <input type="text" id="currency" name="currency" />
+  <button class="btn btn-dark" type="submit">Post Job</button>
+</form>
 
-      <button class="btn btn-dark" type="submit">Post Job</button>
-    </form>
+<script>
+  function postJob() {
+    const form = document.getElementById("jobForm");
+    const descriptionTextarea = document.getElementById("description");
 
-    <script>
-      function postJob() {
-        const form = document.getElementById("jobForm");
-        const formData = new FormData(form);
+    // Replace newline characters with <br> tags
+    const descriptionValue = descriptionTextarea.value.replace(/\n/g, "<br>");
 
-        fetch("/post-job-to-db", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              alert("Job posted successfully!");
-              window.location.href = "/home";
-            } else {
-              alert("Error posting job. Please try again.");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-    </script>
-  </body>
-</html>
+    // Update the textarea value
+    descriptionTextarea.value = descriptionValue;
+    const formData = new FormData(form);
+
+    fetch("/post-job-to-db", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Job posted successfully!");
+          window.location.href = "/home";
+        } else {
+          alert("Error posting job. Please try again.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+</script>
+
+{% include 'footer.html' %} {% endblock %}

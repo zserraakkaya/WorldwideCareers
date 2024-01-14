@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block head %}
+<title>Worldwide Careers</title>
+{% endblock %} {% block body %} {% include 'nav.html' %}
+
+<header>
+  <img src="../static/career.jpg" id="header-img" style="height: 300px" />
+  <div id="header-overlay">
+    <h1 id="header-h1">Worldwide Careers</h1>
+  </div>
+</header>
+<div class="col-sm-8" style="margin: auto">
+  <div class="card shadow-lg" id="job-div">
+    <div class="card-body">
+      <h5 class="card-title mb-3" id="job-title">{{ job.title }}</h5>
+      <p class="card-text mb-3" id="job-location">{{ job.location }}</p>
+      <p class="card-text mb-3" id="job-description">{{ job.description }}</p>
+      {% if job.salary and job.currency %}
+      <p class="card-text mb-3" id="job-salary">
+        {{ job.salary }} {{ job.currency }}
+      </p>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+      <small class="text-muted" id="job-added"
+        >Job added at {{job.created_at.strftime('%d %b %Y %H:%M')}}</small
+      >
+    </div>
+  </div>
+</div>
+
+{% include 'footer.html' %} {% endblock %}
