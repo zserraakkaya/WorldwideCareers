@@ -1,3 +1,4 @@
+from flask import jsonify, url_for
 import pymysql
 import os
 
@@ -66,3 +67,22 @@ def load_jobs_from_db():
             jobs.append(job)
         close_connection(connection)
         return jobs
+
+def insert_job_to_db(title, location, description, salary, currency):
+    connection = connect_to_database()
+
+    if not connection:
+        return jsonify({'success': False, 'message': 'Unable to connect to the database'})
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = "INSERT INTO jobs (title, location, description, salary, currency) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql_query, (title, location, description, salary or None, currency or None))
+        return jsonify({'success': True, 'message': 'Job posted successfully'})
+        
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error posting job: {e}'})
+
+    finally:
+        close_connection(connection)
