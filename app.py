@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, redirect, request, url_for
 
-from database import load_jobs_from_db, insert_job_to_db, load_job_from_db
+from database import load_jobs_from_db, insert_job_to_db, load_job_from_db, insert_job_application_to_db
 
 app = Flask(__name__)
 
@@ -9,11 +9,41 @@ def hello_world():
     jobs = load_jobs_from_db()
     return render_template("home.html", jobs=jobs)
 
+#navbar links
+@app.route('/')
+def home():
+    return render_template('home.html')
+@app.route('/about')
+def about():
+    return render_template('about.html')
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 # 
 @app.route("/api/jobs")
 def list_jobs():
     jobs = load_jobs_from_db()
     return jsonify(jobs)
+
+# to go to apply-job.html
+@app.route('/apply-job')
+def apply_job():
+    return render_template('apply-job.html')
+# to go to apply-job.html
+@app.route('/go-to-apply-job', methods=['POST'])
+def go_to_apply_job():
+    return redirect(url_for('apply_job'))
+
+# when "apply job" button clicked on apply-job.html:
+@app.route('/post-job-application-to-db', methods=['POST'])
+def post_job_application_to_db_route():
+    first_name = request.form.get('fname')
+    last_name = request.form.get('lname')
+    date_of_birth = request.form.get('dob')
+    email = request.form.get('email')
+
+    return insert_job_application_to_db(first_name, last_name, date_of_birth, email)
 
 # to go to post-job.html
 @app.route('/post-job')

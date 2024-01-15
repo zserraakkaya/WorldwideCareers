@@ -11,15 +11,38 @@
 <div class="col-sm-8" style="margin: auto">
   <div class="card shadow-lg" id="job-div">
     <div class="card-body">
+      <p class="card-text mb-3" id="job-added">{{job.created_at.strftime('%d %b %Y %H:%M')}}</p>
       <h5 class="card-title mb-3" id="job-title">{{ job.title }}</h5>
       <p class="card-text mb-3" id="job-location">{{ job.location }}</p>
-      <p class="card-text mb-3" id="job-description">{{ job.description }}</p>
+
+      <hr style="margin-bottom: 0" />
+      <p style="text-align: center; margin: 0 auto" id="job-desc-p">
+        Job Description
+      </p>
+      <hr style="margin-top: 0" />
+
+      <p
+        class="card-text mb-3"
+        id="job-description"
+        style="white-space: pre-line; width: 80%; text-align: center"
+      >
+        {{ job.description }}
+      </p>
       {% if job.salary and job.currency %}
       <p class="card-text mb-3" id="job-salary">
         {{ job.salary }} {{ job.currency }}
       </p>
       {% endif %}
     </div>
+
+    <div>
+      <form class="form-inline" action="/go-to-apply-job" method="post">
+        <button class="btn btn-dark btn-lg" type="submit" id="apply-job-btn">
+          Apply for this job!
+        </button>
+      </form>
+    </div>
+
     <div class="card-footer">
       <small class="text-muted" id="job-added"
         >Job added at {{job.created_at.strftime('%d %b %Y %H:%M')}}</small

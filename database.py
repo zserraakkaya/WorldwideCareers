@@ -113,3 +113,23 @@ def load_job_from_db(job_id):
 
     finally:
         close_connection(connection)
+
+# when "apply job" button clicked on apply-job.html:
+def insert_job_application_to_db(first_name, last_name, date_of_birth, email):
+    connection = connect_to_database()
+
+    if not connection:
+        return jsonify({'success': False, 'message': 'Unable to connect to the database'})
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = "INSERT INTO job_applications (first_name, last_name, date_of_birth, email) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql_query, (first_name, last_name, date_of_birth, email))
+        return jsonify({'success': True, 'message': 'Applied for job successfully'})
+        
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error applying job: {e}'})
+
+    finally:
+        close_connection(connection)

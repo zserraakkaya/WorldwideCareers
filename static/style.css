@@ -3,9 +3,28 @@ body {
   padding: 0;
 }
 
-#nav-h1 {
-  font-size: 11px;
+/* nav start */
+.navbar {
+  font-family: "Inter";
 }
+#nav-h1 {
+  font-size: 0.65rem;
+  margin: 0;
+  cursor: default;
+}
+#nav-img {
+  margin: 0;
+  height: 50px;
+}
+.nav-item {
+  margin: 0;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+#post-job-btn {
+  font-size: 1.1rem;
+}
+/* nav end */
 
 /*header part start*/
 header {
@@ -52,8 +71,35 @@ header {
 #job-added,
 #job-description,
 #job-salary {
+  font-family: "Inter";
   text-align: center;
   display: block;
   margin: 0 auto;
+}
+#job-title {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+#job-location,
+#details-btn {
+  font-size: 0.9rem;
+}
+#job-location {
+  font-style: italic;
+}
+#job-added {
+  font-size: 0.7rem;
+}
+#job-desc-p {
+  font-family: "Inter";
+  font-weight: normal;
+  margin: 0 auto;
+  padding: 0;
+}
+#apply-job-btn {
+  display: block;
+  margin: 0 auto 20px;
+  text-align: center;
+  font-size: 1.1rem;
 }
 /*single job item end*/
