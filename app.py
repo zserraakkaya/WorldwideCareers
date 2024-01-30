@@ -2,7 +2,23 @@ from flask import Flask, render_template, jsonify, redirect, request, url_for
 
 from database import load_jobs_from_db, insert_job_to_db, load_job_from_db, insert_job_application_to_db
 
+# to mail cv
+from flask_mail import Mail, Message
+
+# to use env. var.s
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 app = Flask(__name__)
+
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS').lower() == 'true'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL').lower() == 'true'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+mail = Mail(app)
 
 @app.route("/")
 def hello_world():
@@ -42,6 +58,14 @@ def post_job_application_to_db_route():
     last_name = request.form.get('lname')
     date_of_birth = request.form.get('dob')
     email = request.form.get('email')
+
+    cv_file = request.files['cv']
+
+    if cv_file:
+        msg = Message('New CV Submission', sender='zserraakkaya2@gmail.com', recipients=['zserraakkaya2@gmail.com'])
+        msg.body = 'A new CV has been submitted.'
+        msg.attach(cv_file.filename, 'application/pdf', cv_file.read())
+        mail.send(msg)
 
     return insert_job_application_to_db(first_name, last_name, date_of_birth, email)
 
