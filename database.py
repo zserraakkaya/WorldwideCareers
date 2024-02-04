@@ -72,7 +72,7 @@ def load_jobs_from_db():
         return jobs
 
 # when "post job" button clicked on post-job.html:
-def insert_job_to_db(title, location, description, salary, currency):
+def insert_job_to_db(title, location, description, salary, currency, email):
     connection = connect_to_database()
 
     if not connection:
@@ -80,8 +80,8 @@ def insert_job_to_db(title, location, description, salary, currency):
 
     try:
         with connection.cursor() as cursor:
-            sql_query = "INSERT INTO jobs (title, location, description, salary, currency) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(sql_query, (title, location, description, salary or None, currency or None))
+            sql_query = "INSERT INTO jobs (title, location, description, salary, currency, email) VALUES (%s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql_query, (title, location, description, salary or None, currency or None, email))
         return jsonify({'success': True, 'message': 'Job posted successfully'})
         
 

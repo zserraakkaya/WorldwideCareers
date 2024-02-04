@@ -86,8 +86,9 @@ def post_job_to_db_route():
     description = request.form.get('description')
     salary = request.form.get('salary')
     currency = request.form.get('currency')
+    email = request.form.get('email')
 
-    return insert_job_to_db(title, location, description, salary, currency)
+    return insert_job_to_db(title, location, description, salary, currency, email)
 
 # when "see job details" button clicked on home.html:
 @app.route('/job-details/<int:id>')
