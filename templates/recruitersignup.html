@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block head %}
+<link rel="stylesheet" href="../static/signin.css" />
+<title>Recruiter Sign Up</title>
+{% endblock %} {% block body %} {% include 'nav.html' %}
+
+<form action="/signup" method="post">
+  <label for="company_name">Company Name: </label>
+  <input type="text" id="company_name" name="company_name" required />
+
+  <label for="company_email">Company Email:</label>
+  <input type="email" id="company_email" name="company_email" required />
+
+  <label for="company_password">Password:</label>
+  <input
+    type="password"
+    id="company_password"
+    name="company_password"
+    required
+  />
+
+  <label for="company_password_again">Confirm Password:</label>
+  <input
+    type="password"
+    id="company_password_again"
+    name="company_password_again"
+    required
+  />
+
+  <button type="submit">Sign Up</button>
+
+  <div class="signup-link">
+    <p>
+      Did you already register your company?
+      <a href="/recruitersignin">Sign In</a>
+    </p>
+  </div>
+</form>
+
+{% include 'footer.html' %} {% endblock %}

@@ -41,6 +41,12 @@ def signin():
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
+@app.route('/recruitersignin')
+def recruitersignin():
+    return render_template('recruitersignin.html')
+@app.route('/recruitersignup')
+def recruitersignup():
+    return render_template('recruitersignup.html')
 
 # 
 @app.route("/api/jobs")
