@@ -21,9 +21,8 @@ body {
   font-size: 0.8rem;
   cursor: pointer;
 }
-#post-job-btn,
-.signin {
-  margin-right: 5px;
+.signinbtn {
+  margin-right: 10px;
 }
 /* nav end */
 
