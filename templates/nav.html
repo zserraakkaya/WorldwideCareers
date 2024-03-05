@@ -41,13 +41,19 @@
         </li>
       </ul>
     </div>
-    <form class="form-inline" action="/go-to-post-job" method="post">
+    <!--only recruiters can see this button-->
+    <!-- <form class="form-inline" action="/go-to-post-job" method="post">
       <button class="btn btn-dark btn-lg" type="submit" id="post-job-btn">
         Are you a recruiter? Post a job!
       </button>
-    </form>
-    <li class="btn btn-dark btn-lg">
+    </form> -->
+    <li class="btn btn-dark btn-lg signin">
       <a class="nav-link active" aria-current="page" href="/signin">Sign In</a>
+    </li>
+    <li class="btn btn-dark btn-lg signin">
+      <a class="nav-link active" aria-current="page" href="/recruitersignin"
+        >Are you a recruiter?</a
+      >
     </li>
   </div>
 </nav>
