@@ -41,6 +41,81 @@ def close_connection(connection):
         connection.close()
         print("Connection closed.")
 
+# sign up a user
+def save_user_to_db(first_name, last_name, email, password_hash):
+    connection = connect_to_database()
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = "INSERT INTO users (first_name, last_name, email, password) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql_query, (first_name, last_name, email, password_hash))
+            return jsonify({'success': True, 'message': 'User registered successfully'})
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error registering user: {e}'})
+
+    finally:
+        close_connection(connection)
+
+# sign in a user
+def get_user_from_db(email):
+    connection = connect_to_database()
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = 'SELECT * FROM users WHERE email=%s'
+            cursor.execute(sql_query, (email,))
+            result = cursor.fetchone()
+
+            if result:
+                return dict(result)
+            else:
+                return None
+
+    except Exception as e:
+        print(f"Error retrieving user data: {e}")
+
+    finally:
+        close_connection(connection)
+
+# sign up a recruiter
+def save_recruiter_to_db(name, email, password_hash):
+    connection = connect_to_database()
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = "INSERT INTO recruiters (name, email, password) VALUES (%s, %s, %s)"
+            cursor.execute(sql_query, (name, email, password_hash))
+            return jsonify({'success': True, 'message': 'User registered successfully'})
+
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error registering user: {e}'})
+
+    finally:
+        close_connection(connection)
+
+# sign in a recruiter
+def get_recruiter_from_db(email):
+    connection = connect_to_database()
+
+    try:
+        with connection.cursor() as cursor:
+            sql_query = 'SELECT * FROM recruiters WHERE email=%s'
+            cursor.execute(sql_query, (email,))
+            result = cursor.fetchone()
+
+            if result:
+                return dict(result)
+            else:
+                return None
+
+    except Exception as e:
+        print(f"Error retrieving user data: {e}")
+
+    finally:
+        close_connection(connection)
+
+#
 def retrieve_jobs_data(connection):
     try:
         with connection.cursor() as cursor:

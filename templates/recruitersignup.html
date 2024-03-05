@@ -3,26 +3,26 @@
 <title>Recruiter Sign Up</title>
 {% endblock %} {% block body %} {% include 'nav.html' %}
 
-<form action="/signup" method="post">
-  <label for="company_name">Company Name: </label>
-  <input type="text" id="company_name" name="company_name" required />
+<form action="/db-recruitersignup" method="post">
+  <label for="name">Company Name: </label>
+  <input type="text" id="name" name="name" required />
 
-  <label for="company_email">Company Email:</label>
-  <input type="email" id="company_email" name="company_email" required />
+  <label for="email">Company Email:</label>
+  <input type="email" id="email" name="email" required />
 
-  <label for="company_password">Password:</label>
+  <label for="password">Password:</label>
   <input
     type="password"
-    id="company_password"
-    name="company_password"
+    id="password"
+    name="password"
     required
   />
 
-  <label for="company_password_again">Confirm Password:</label>
+  <label for="password_again">Confirm Password:</label>
   <input
     type="password"
-    id="company_password_again"
-    name="company_password_again"
+    id="password_again"
+    name="password_again"
     required
   />
 

@@ -1,6 +1,9 @@
 from flask import Flask, render_template, jsonify, redirect, request, url_for
 
-from database import load_jobs_from_db, insert_job_to_db, load_job_from_db, insert_job_application_to_db
+from database import save_user_to_db, get_user_from_db, save_recruiter_to_db, get_recruiter_from_db, load_jobs_from_db, insert_job_to_db, load_job_from_db, insert_job_application_to_db
+
+# to hash the passwords
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # to mail cv
 from flask_mail import Mail, Message
@@ -35,18 +38,92 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-@app.route('/signin')
-def signin():
-    return render_template('signin.html')
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
+
+# go to recruiter sign in and sign up pages
 @app.route('/recruitersignin')
 def recruitersignin():
     return render_template('recruitersignin.html')
 @app.route('/recruitersignup')
 def recruitersignup():
     return render_template('recruitersignup.html')
+
+# go to signin and signup pages
+@app.route('/signin')
+def signin():
+    return render_template('signin.html')
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+# user sign up
+@app.route('/db-signup', methods=['POST'])
+def db_signup():
+    if request.method == 'POST':
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        password_again = request.form.get('password_again')
+
+        if password != password_again:
+            return render_template('signup.html', error='Passwords do not match')
+
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        save_user_to_db(first_name, last_name, email, hashed_password)
+
+        return redirect(url_for('signin'))
+
+# user sign in
+@app.route('/db-signin', methods=['GET', 'POST'])
+def db_signin():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = get_user_from_db(email)
+
+        if user and check_password_hash(user['password'], password):
+            return redirect(url_for('home'))
+        else:
+            return render_template('signin.html', error='Invalid email or password')
+
+    return render_template('signin.html')
+
+# recruiter sign up
+@app.route('/db-recruitersignup', methods=['POST'])
+def db_recruitersignup():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        password_again = request.form.get('password_again')
+
+        if password != password_again:
+            return render_template('recruitersignup.html', error='Passwords do not match')
+
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+
+        save_recruiter_to_db(name, email, hashed_password)
+
+        return redirect(url_for('recruitersignin'))
+
+# recruiter sign in
+@app.route('/db-recruitersignin', methods=['GET', 'POST'])
+def db_recruitersignin():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        user = get_recruiter_from_db(email)
+
+        if user and check_password_hash(user['password'], password):
+            return redirect(url_for('home'))
+        else:
+            return render_template('recruitersignin.html', error='Invalid email or password')
+
+    return render_template('recruitersignin.html')
+
 
 # 
 @app.route("/api/jobs")
